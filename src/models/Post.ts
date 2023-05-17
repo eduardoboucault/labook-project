@@ -8,4 +8,19 @@ export class Post {
     private created_at: string,
     private updated_at: string
   ) {}
+
+  public getId(){}
+
+  public getCreatorId(){}
+
+  public getContent(){}
+  public setContent(){}
+
+  public getLikes(){}
+
+  public getDislikes(){}
+
+  public getCreatedAt(){}
+
+  public getUpdatedAt(){}
 }
