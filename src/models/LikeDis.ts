@@ -4,4 +4,10 @@ export class LikeDis {
     private post_id: string,
     private like: number
   ) {}
+
+  public getUserId(){}
+
+  public getPostId(){}
+
+  public getLike(){}
 }
