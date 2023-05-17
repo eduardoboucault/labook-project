@@ -1,4 +1,5 @@
 -- Active: 1684344332056@@127.0.0.1@3306
+
 CREATE TABLE
     users (
         id TEXT PRIMARY KEY UNIQUE NOT NULL,
@@ -6,7 +7,7 @@ CREATE TABLE
         email TEXT NOT NULL,
         password TEXT NOT NULL,
         role TEXT NOT NULL,
-        created_at TEXT DEFAULT (DATETIME('now','localtime')) NOT NULL
+        created_at TEXT DEFAULT (DATETIME('now', 'localtime')) NOT NULL
     );
 
 CREATE TABLE
@@ -16,8 +17,8 @@ CREATE TABLE
         content TEXT NOT NULL,
         likes INTEGER NOT NULL,
         dislikes INTEGER NOT NULL,
-        created_at TEXT DEFAULT (DATETIME('now','localtime')) NOT NULL,
-        updated_at TEXT DEFAULT (DATETIME('now','localtime')) NOT NULL
+        created_at TEXT DEFAULT (DATETIME('now', 'localtime')) NOT NULL,
+        updated_at TEXT DEFAULT (DATETIME('now', 'localtime')) NOT NULL
     );
 
 CREATE TABLE
@@ -26,3 +27,9 @@ CREATE TABLE
         post_id TEXT NOT NULL REFERENCES posts (id) ON DELETE CASCADE,
         like INTEGER
     );
+
+SELECT * FROM users;
+
+SELECT * FROM posts;
+
+SELECT * FROM likes_dislikes;
