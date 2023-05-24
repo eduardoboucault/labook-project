@@ -8,18 +8,36 @@ export class User {
     private created_at: string
   ) {}
 
-  public getId(){}
+  public getId(): string {
+    return this.id;
+  }
 
-  public getName(){}
-  public setName(){}
+  public getName(): string {
+    return this.name;
+  }
+  public setName(newName: string): void {
+    this.name = newName;
+  }
 
-  public getEmail(){}
-  public setEmail(){}
+  public getEmail(): string {
+    return this.email;
+  }
+  public setEmail(newEmail: string): void {
+    this.email = newEmail;
+  }
 
-  public getPassword(){}
-  public setPassword(){}
+  public getPassword(): string {
+    return this.password;
+  }
+  public setPassword(newPassword: string): void {
+    this.password = newPassword;
+  }
 
-  public getRole(){}
+  public getRole(): string {
+    return this.role;
+  }
 
-  public createdAt(){}
+  public getCreatedAt(): string {
+    return this.created_at;
+  }
 }

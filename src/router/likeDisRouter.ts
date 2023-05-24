@@ -5,9 +5,7 @@ import { LikeDisDatabase } from "../database/LikeDisDatabase";
 
 const likeDisRouter = express.Router();
 
-const likeDisController = new LikeDisController(
-  new LikeDisBusiness(new LikeDisDatabase())
-);
+const likeDisController = new LikeDisController(new LikeDisBusiness(new LikeDisDatabase()));
 
 likeDisRouter.post("/", likeDisController.createLikes);
 likeDisRouter.get("/", likeDisController.getLikes);
