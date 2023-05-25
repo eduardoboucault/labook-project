@@ -15,6 +15,7 @@ export class User {
   public getName(): string {
     return this.name;
   }
+  
   public setName(newName: string): void {
     this.name = newName;
   }

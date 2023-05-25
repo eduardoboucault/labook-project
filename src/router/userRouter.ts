@@ -5,7 +5,7 @@ import { UserDatabase } from "../database/UserDatabase";
 
 const userRouter = express.Router();
 
-const userController = new UserController(new UserBusiness(new UserDatabase()));
+const userController = new UserController(new UserBusiness(new UserDatabase()))
 
 userRouter.post("/", userController.createUsers);
 userRouter.get("/", userController.getUsers);

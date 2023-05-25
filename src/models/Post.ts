@@ -9,18 +9,34 @@ export class Post {
     private updated_at: string
   ) {}
 
-  public getId(){}
+  public getId(): string {
+    return this.id;
+  }
 
-  public getCreatorId(){}
+  public getCreatorId(): string {
+    return this.creator_id;
+  }
 
-  public getContent(){}
-  public setContent(){}
+  public getContent(): string {
+    return this.content;
+  }
+  public setContent(newContent: string): void {
+    this.content = newContent;
+  }
 
-  public getLikes(){}
+  public getLikes(): number {
+    return this.likes;
+  }
 
-  public getDislikes(){}
+  public getDislikes(): number {
+    return this.dislikes;
+  }
 
-  public getCreatedAt(){}
+  public getCreatedAt(): string {
+    return this.created_at;
+  }
 
-  public getUpdatedAt(){}
+  public getUpdatedAt(): string {
+    return this.updated_at;
+  }
 }

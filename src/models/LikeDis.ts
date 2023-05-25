@@ -5,9 +5,15 @@ export class LikeDis {
     private like: number
   ) {}
 
-  public getUserId(){}
+  public getUserId(): string {
+    return this.user_id;
+  }
 
-  public getPostId(){}
+  public getPostId(): string {
+    return this.post_id;
+  }
 
-  public getLike(){}
+  public getLike(): number {
+    return this.like;
+  }
 }
