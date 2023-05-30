@@ -8,4 +8,9 @@ export class Post {
     private created_at: string,
     private updated_at: string
   ) {}
+
+  public getId(): string {
+    return this.id;
+  }
+
 }
