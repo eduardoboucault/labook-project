@@ -13,7 +13,35 @@ export class UserDatabase extends BaseDatabase {
     return result;
   };
 
-  public insertNewUser = async (newUserDB: UserDBPost): Promise<void> => {
-    await BaseDatabase.conection(UserDatabase.TABLE_USERS).insert(newUserDB);
+  public insertNewUser = async (newUserDB: UserDBPost): Promise<number[]> => {
+    const result = await BaseDatabase.conection(
+      UserDatabase.TABLE_USERS
+    ).insert(newUserDB);
+    return result;
+  };
+
+  public findUserByName = async (input: string): Promise<UserDB[]> => {
+    let usersDB;
+    if (input) {
+      const result: UserDB[] = await BaseDatabase.conection(
+        UserDatabase.TABLE_USERS
+      ).where("name", "LIKE", `%${input}%`);
+      usersDB = result;
+    } else {
+      const result: UserDB[] = await BaseDatabase.conection(
+        UserDatabase.TABLE_USERS
+      );
+      usersDB = result;
+    }
+    return usersDB;
+  };
+
+  public editUser = async (editedUserDB: any) => {
+    console.log(editedUserDB);
+    const result = await BaseDatabase.conection(
+      UserDatabase.TABLE_USERS
+    ).update(editedUserDB);
+    console.log(editedUserDB);
+    return result;
   };
 }
