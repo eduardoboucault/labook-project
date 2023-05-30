@@ -17,7 +17,6 @@ export interface UserDBPost {
   email: string;
   password: string;
   role: string;
-  created_at: string;
 }
 
 export interface UserDBPut {

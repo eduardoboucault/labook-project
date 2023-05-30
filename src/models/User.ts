@@ -1,11 +1,12 @@
+
 export class User {
   constructor(
     private id: string,
     private name: string,
     private email: string,
     private password: string,
-    private role: string,
-    private created_at: string
+    private role: string
+
   ) {}
 
   public getId(): string {
@@ -15,7 +16,7 @@ export class User {
   public getName(): string {
     return this.name;
   }
-  
+
   public setName(newName: string): void {
     this.name = newName;
   }
@@ -38,7 +39,12 @@ export class User {
     return this.role;
   }
 
-  public getCreatedAt(): string {
-    return this.created_at;
+  public setRole(newRole: string): void {
+    if (this.role === "ADMIN") {
+      this.role = newRole;
+    } else {
+      this.role = "USER";
+      console.log("VOCÊ É UM PLEBEU");
+    }
   }
 }
