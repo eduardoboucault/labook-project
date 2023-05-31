@@ -1,7 +1,9 @@
 import { BaseDatabase } from "./BaseDatabase";
-import { UserDB, UserDBPost } from "../types/interface";
+import { UserDB } from "../types/interface";
+import { User } from "../models/User";
 
 export class UserDatabase extends BaseDatabase {
+  
   public static TABLE_USERS = "users";
 
   public findUserById = async (id: string): Promise<UserDB | undefined> => {
@@ -10,13 +12,6 @@ export class UserDatabase extends BaseDatabase {
     ).where({
       id,
     });
-    return result;
-  };
-
-  public insertNewUser = async (newUserDB: UserDBPost): Promise<number[]> => {
-    const result = await BaseDatabase.conection(
-      UserDatabase.TABLE_USERS
-    ).insert(newUserDB);
     return result;
   };
 
@@ -34,6 +29,25 @@ export class UserDatabase extends BaseDatabase {
       usersDB = result;
     }
     return usersDB;
+  };
+
+  public findUserByEmail = async (email: string) => {
+    if (email) {
+      const result: UserDB = await BaseDatabase.conection(
+        UserDatabase.TABLE_USERS
+      )
+        .where("email", email)
+        .first();
+      return result;
+    }
+    return null;
+  };
+
+  public insertNewUser = async (newUserDB: User): Promise<number[]> => {
+    const result = await BaseDatabase.conection(
+      UserDatabase.TABLE_USERS
+    ).insert(newUserDB);
+    return result;
   };
 
   public editUser = async (editedUserDB: any) => {

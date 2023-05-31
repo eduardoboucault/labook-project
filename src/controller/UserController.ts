@@ -5,7 +5,9 @@ import {
   CreateUserSchema,
 } from "../dtos/dto-user/createUser.dto";
 import { BaseError } from "../errors/BaseError";
-import { UserDB } from "../types/interface";
+import {
+  GetUsersSchema,
+} from "../dtos/dto-user/getUsers.dto";
 export class UserController {
   constructor(private userBusiness: UserBusiness) {}
 
@@ -15,7 +17,6 @@ export class UserController {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
-        role: req.body.role,
       });
 
       const output: CreateOutputUserDTO = await this.userBusiness.createUsers(
@@ -34,9 +35,12 @@ export class UserController {
 
   public getUsers = async (req: Request, res: Response): Promise<void> => {
     try {
-      const input = req.query.q as string;
+      const input = GetUsersSchema.parse({
+        q: req.query.q,
+        token: req.headers.authorization,
+      });
 
-      const result:UserDB[] = await this.userBusiness.getUsers(input);
+      const result = await this.userBusiness.getUsers(input);
       const output = {
         message: "Resultado da busca",
         users: result,
