@@ -1,4 +1,12 @@
+export enum USER_ROLES {
+  ADMIN = "admin",
+  USER = "user",
+}
 
+export interface TokenPayLoad {
+  id: string;
+  role: string;
+}
 export class User {
   constructor(
     private id: string,
@@ -6,7 +14,6 @@ export class User {
     private email: string,
     private password: string,
     private role: string
-
   ) {}
 
   public getId(): string {
@@ -39,12 +46,12 @@ export class User {
     return this.role;
   }
 
-  public setRole(newRole: string): void {
-    if (this.role === "ADMIN") {
+  public setRole(newRole: USER_ROLES): void {
+    if (this.role === USER_ROLES.ADMIN) {
       this.role = newRole;
     } else {
-      this.role = "USER";
-      console.log("VOCÊ É UM PLEBEU");
+      this.role = USER_ROLES.USER;
+      console.log("Somente a classe ADMIN pode fazer este tipo de alteração.");
     }
   }
 }

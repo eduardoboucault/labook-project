@@ -1,7 +1,7 @@
 import { BaseError } from "./BaseError";
 
-export class BadRequestError extends BaseError {
+export class AlreadyExist extends BaseError {
   constructor(message: string) {
-    super(400, message);
+    super(409, message);
   }
 }
