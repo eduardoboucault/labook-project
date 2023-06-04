@@ -4,9 +4,7 @@ export class Post {
     private creator_id: string,
     private content: string,
     private likes: number,
-    private dislikes: number,
-    private created_at: string,
-    private updated_at: string
+    private dislikes: number
   ) {}
 
   public getId(): string {
@@ -32,11 +30,13 @@ export class Post {
     return this.dislikes;
   }
 
-  public getCreatedAt(): string {
-    return this.created_at;
-  }
-
-  public getUpdatedAt(): string {
-    return this.updated_at;
+  public toDBmodel() {
+    return {
+      id: this.id,
+      creator_id: this.creator_id,
+      content: this.content,
+      likes: this.likes,
+      dislikes: this.dislikes,
+    };
   }
 }
