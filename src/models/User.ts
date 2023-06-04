@@ -3,6 +3,14 @@ export enum USER_ROLES {
   USER = "user",
 }
 
+export interface UserDB {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: string;
+}
+
 export interface TokenPayLoad {
   id: string;
   role: string;
@@ -53,5 +61,15 @@ export class User {
       this.role = USER_ROLES.USER;
       console.log("Somente a classe ADMIN pode fazer este tipo de alteração.");
     }
+  }
+
+  public toDBmodel(): UserDB {
+    return {
+      id: this.id,
+      name: this.name,
+      email: this.email,
+      password: this.password,
+      role: this.role,
+    };
   }
 }

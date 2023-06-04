@@ -4,7 +4,13 @@ export class PostController {
   constructor(private postBusiness: PostBusiness) {}
 
   public createPosts = async (req: Request, res: Response): Promise<void> => {
-    await this.postBusiness.createPosts();
+    const input = {
+      content: req.body.content,
+      token: req.headers.authorization
+    }
+
+    const result = await this.postBusiness.createPosts(input)
+    res.status(201).send(result);
   };
 
   public getPosts = async (req: Request, res: Response): Promise<void> => {
