@@ -32,7 +32,37 @@ export class PostBusiness {
     const output = { message: "post xuxado com sucesso", content: content };
     return output;
   };
-  public getPosts = async () => {};
-  public editPosts = async () => {};
+  public getPosts = async (input:any) => {
+    const {q, token} = input
+
+    const id = this.tokenManager.getPayLoad(token)
+
+    if(!id){
+      throw new NotFoundError('Token inválido')
+    }
+
+    const result = await this.postDatabase.getPosts(q)
+
+    const output = {
+      result: result
+    }
+
+    return output
+  };
+  public editPosts = async (input: any) => {
+    const {
+      content, token
+    } = input;
+
+    const validToken = this.tokenManager.getPayLoad(token)
+
+    if(!validToken){
+      throw new NotFoundError('Token inválido')
+    }
+
+    const idUser = validToken.id
+
+    await this.postDatabase.editPost(content, idUser)
+  };
   public deletePosts = async () => {};
 }
