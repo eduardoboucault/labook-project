@@ -15,7 +15,18 @@ import { BadRequestError } from "../errors/BadRequest";
 import { AlreadyExist } from "../errors/AlreadyExist";
 import { HashManager } from "../services/HashManager";
 import { NotFoundError } from "../errors/NotFound";
-import { UpdateOutputUsersDTO } from "../dtos/dto-user/updateUser.dto";
+import {
+  UpdateInputUsersDTO,
+  UpdateOutputUsersDTO,
+} from "../dtos/dto-user/updateUser.dto";
+import {
+  loginInputUserDTO,
+  loginOutputUserDTO,
+} from "../dtos/dto-user/loginUser.dto";
+import {
+  SignupInputUserDTO,
+  SignupOutputUserDTO,
+} from "../dtos/dto-user/signupUser.dtos";
 export class UserBusiness {
   constructor(
     private userDatabase: UserDatabase,
@@ -24,7 +35,7 @@ export class UserBusiness {
     private hashManager: HashManager
   ) {}
 
-  public login = async (input: any) => {
+  public login = async (input: loginInputUserDTO) => {
     const { email, password } = input;
 
     const userDB = await this.userDatabase.findUserByEmail(email);
@@ -60,7 +71,7 @@ export class UserBusiness {
 
     const token = this.tokenManager.createToken(payload);
 
-    const output = {
+    const output: loginOutputUserDTO = {
       message: "Login realizado com sucesso",
       token,
     };
@@ -68,7 +79,7 @@ export class UserBusiness {
     return output;
   };
 
-  public signup = async (input: any) => {
+  public signup = async (input: SignupInputUserDTO) => {
     const { name, email, password } = input;
 
     const id = this.idGenerator.generate();
@@ -76,7 +87,7 @@ export class UserBusiness {
     const idExist = await this.userDatabase.findUserById(id);
 
     if (idExist) {
-      throw new AlreadyExist("Usuário já existente");
+      throw new AlreadyExist("ID já registrada");
     }
 
     const emailDBexist: UserDB | null = await this.userDatabase.findUserByEmail(
@@ -84,7 +95,7 @@ export class UserBusiness {
     );
 
     if (emailDBexist) {
-      throw new AlreadyExist("Email já existente");
+      throw new AlreadyExist("Email já registrado");
     }
 
     const hashedPassword = await this.hashManager.hash(password);
@@ -108,9 +119,9 @@ export class UserBusiness {
 
     const token = this.tokenManager.createToken(tokenPayLoad);
 
-    const output: CreateOutputUserDTO = {
+    const output: SignupOutputUserDTO = {
       message: "Cadastro realizado com sucesso",
-      token: token,
+      token,
     };
 
     return output;
@@ -196,7 +207,7 @@ export class UserBusiness {
     return output;
   };
 
-  public editUsers = async (input: any, tokenID: any) => {
+  public editUsers = async (input: UpdateInputUsersDTO, tokenID: any) => {
     const { token } = tokenID;
 
     const { name, email, password } = input;
@@ -238,23 +249,19 @@ export class UserBusiness {
   };
 
   public deleteUsers = async (token: any) => {
-    try {
+    const userExistDB = this.tokenManager.getPayLoad(token);
 
-      const userExistDB = this.tokenManager.getPayLoad(token);
+    if (!userExistDB) {
+      throw new BadRequestError("Token inválido");
+    }
 
-      if (!userExistDB) {
-        throw new BadRequestError("Token inválido");
-      }
+    const id = userExistDB.id;
 
-      const id = userExistDB.id;
+    await this.userDatabase.deleteUser(id);
 
-      await this.userDatabase.deleteUser(id);
-      
-      const output = {
-        message:"Usuário deletado com sucesso",
-        
-      }
-      return output
-    } catch (error) {}
+    const output = {
+      message: "Usuário deletado com sucesso",
+    };
+    return output;
   };
 }
