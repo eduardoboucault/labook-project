@@ -3,17 +3,19 @@ import { Request, Response } from "express";
 import { ZodError } from "zod";
 import { BaseError } from "../errors/BaseError";
 import { CreatePostSchema } from "../dtos/dto-post/createPost.dto";
+import { UpdatePostSchema } from "../dtos/dto-post/updatePost.dto";
 export class PostController {
   constructor(private postBusiness: PostBusiness) {}
 
   public createPosts = async (req: Request, res: Response): Promise<void> => {
     try {
-      const input = {
+      const input = CreatePostSchema.parse({
         content: req.body.content,
         token: req.headers.authorization,
-      };
+      });
 
       const result = await this.postBusiness.createPosts(input);
+
       res.status(201).send(result);
     } catch (error) {
       console.log(error);
@@ -56,12 +58,15 @@ export class PostController {
 
   public updatePosts = async (req: Request, res: Response): Promise<void> => {
     try {
-      const input = CreatePostSchema.parse({
+      const input = UpdatePostSchema.parse({
         content: req.body.content,
         token: req.headers.authorization,
       });
 
-      await this.postBusiness.editPosts(input);
+      const result = await this.postBusiness.editPosts(input);
+
+      res.status(201).send(result)
+
     } catch (error) {
       console.log(error);
 

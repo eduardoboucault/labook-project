@@ -1,4 +1,6 @@
 import { PostDatabase } from "../database/PostDatabase";
+import { CreatePostInputDTO } from "../dtos/dto-post/createPost.dto";
+import { UpdatePostDTO } from "../dtos/dto-post/updatePost.dto";
 import { NotFoundError } from "../errors/NotFound";
 import { Post } from "../models/Post";
 import { IdGenerator } from "../services/IdGenerator";
@@ -11,12 +13,15 @@ export class PostBusiness {
     private tokenManager: TokenManager
   ) {}
 
-  public createPosts = async (input: any) => {
+  public createPosts = async (input: CreatePostInputDTO) => {
+
     const { content, token } = input;
+
     const likes = 0;
     const dislikes = 0;
     const postId = this.idGenerator.generate();
     const userDBexist = this.tokenManager.getPayLoad(token);
+
     if (!userDBexist) {
       throw new NotFoundError("Usuário não cadastrado");
     }
@@ -29,9 +34,12 @@ export class PostBusiness {
 
     await this.postDatabase.insertPost(postDB,userID);
 
-    const output = { message: "post xuxado com sucesso", content: content };
+    const output = { message: "Postagem realizada", content };
+
     return output;
+
   };
+
   public getPosts = async (input:any) => {
     const {q, token} = input
 
@@ -49,7 +57,9 @@ export class PostBusiness {
 
     return output
   };
-  public editPosts = async (input: any) => {
+
+  public editPosts = async (input: UpdatePostDTO) => {
+
     const {
       content, token
     } = input;
@@ -60,9 +70,9 @@ export class PostBusiness {
       throw new NotFoundError('Token inválido')
     }
 
-    const idUser = validToken.id
-
-    await this.postDatabase.editPost(content, idUser)
+    
   };
+
+
   public deletePosts = async () => {};
 }
